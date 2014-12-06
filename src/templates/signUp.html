@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="icon" href="http://getbootstrap.com/favicon.ico">
 
-    <title>Signin for anime quiz!</title>
+    <title>Signup for anime quiz!</title>
 
     <!-- Bootstrap core CSS -->
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -18,7 +18,7 @@
     <!-- Css set background color and locate login panel-->
     <style type="text/css">
       body{background-color: #F7F7F6;}
-      .container{padding-top: 100px; width: 450px; height: 300px;}
+      .container{padding-top: 100px; width: 400px; height: 800px;}
     </style>
 
   </head>
@@ -27,14 +27,20 @@
     <!-- /container -->
     <div class="container">
       <form class="form-signin" role="form" method="POST" action="" accept-charset="UTF-8">
-        <legend>Please Sign In</legend>
+        <legend>Enter Information to Join!</legend>
         <label for="inputEmail" class="sr-only">Email address</label>
         <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
         <label></label>
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <label for="username" class="sr-only">User name</label>
+        <input type="username" id="username" class="form-control" placeholder="User name" required>
         <label></label>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <label for="newPassword" class="sr-only">New password</label>
+        <input type="newpassword" id="newPassword" class="form-control" placeholder="New password" required>
+        <label></label>
+        <label for="re-enterPassword" class="sr-only">Re-enter password</label>
+        <input type="re-enterPassword" id="re-enterPassword" class="form-control" placeholder="Re-enter password" required>
+        <label></label>
+        <button class="btn btn-lg btn-success btn-block" type="submit" id="submitBotton">Sign Up</button>
       </form>
 
     </div>
@@ -43,5 +49,19 @@
     <script src="http://getbootstrap.com/assets/js/ie-emulation-modes-warning.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="http://code.jquery.com/jquery-.1.01.2.min.js"></script>
+    <script type="text/javascript">
+      $("submitBotton").click(function(){
+      var password = $(#"newPassword").val();
+      var repassword = $(#"re-enterPassword").val();
+      
+      if (password != repassword){
+          alert("You did not enter the same new password twice. Please re-enter your password.");
+          return false;
+        }
+        return true;
+      }
+        );
+    </script>
   </body>
 </html>
