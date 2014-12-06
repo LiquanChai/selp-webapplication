@@ -24,7 +24,7 @@
   </head>
 
   <body>
-    <!-- /container -->
+    <!-- Container -->
     <div class="container">
       <form class="form-signin" role="form" method="POST" action="" accept-charset="UTF-8">
         <legend>Enter Information to Join!</legend>
@@ -38,9 +38,9 @@
         <input type="newpassword" id="newPassword" class="form-control" placeholder="New password" required>
         <label></label>
         <label for="re-enterPassword" class="sr-only">Re-enter password</label>
-        <input type="re-enterPassword" id="re-enterPassword" class="form-control" placeholder="Re-enter password" required>
+        <input type="re-enterPassword" id="reenterPassword" class="form-control" placeholder="Re-enter password" required>
         <label></label>
-        <button class="btn btn-lg btn-success btn-block" type="submit" id="submitBotton">Sign Up</button>
+        <button class="btn btn-lg btn-success btn-block" type="submit" id="submitBotton" onClick="check()">Sign Up</button>
       </form>
 
     </div>
@@ -49,19 +49,16 @@
     <script src="http://getbootstrap.com/assets/js/ie-emulation-modes-warning.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
-    <script src="http://code.jquery.com/jquery-.1.01.2.min.js"></script>
-    <script type="text/javascript">
-      $("submitBotton").click(function(){
-      var password = $(#"newPassword").val();
-      var repassword = $(#"re-enterPassword").val();
-      
-      if (password != repassword){
-          alert("You did not enter the same new password twice. Please re-enter your password.");
-          return false;
+    <script>
+      function check() { 
+        with(document.all){
+          if(newPassword.value != reenterPassword.value) {
+            alert("Different password, please re-enter your pass word.")
+            newPassword.value = "";
+            reenterPassword.value = "";
+          } else document.forms[0].submit(); // form[0] is the form submit to Joins (django)
         }
-        return true;
       }
-        );
     </script>
-  </body>
+ </body>  
 </html>
