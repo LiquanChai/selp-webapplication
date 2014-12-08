@@ -24,12 +24,13 @@ def register(request):
  	save_it = form.save(commit = False)
  	save_it.save()
 
+ 	# send confirm email
  	sbj = 'sign up success at anime quiz!'
  	msg = 'Thank you for join us!'
  	frm = form.cleaned_data['email']
  	to_us = [settings.EMAIL_HOST_USER]
  	send_mail(sbj, msg, frm, to_us, fail_silently=True)
- 	print (sbj,msg,frm,to_us)
+ 	#print (sbj,msg,frm,to_us) for debug purpose
  	
  	sleep(3)
  	messages.success(request, "Sign up successful!")
