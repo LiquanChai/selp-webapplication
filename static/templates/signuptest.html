@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html>
-	<head>
-	</head>
+{% extends "base.html" %}
+
+{% block content %}
+	<title>Signup for anime quiz!</title>
 
 	<body>
-		<h1>Welcome to anime quiz!</h1>
-		
+		<h1> Welcome to anime quiz! </h1>
+
 		<div class="container">
 			{% if messages %}
 			<div class='row'>
@@ -25,5 +25,4 @@
 		</form>
 
 	</body>
-
-</html>
+{% endblock %}

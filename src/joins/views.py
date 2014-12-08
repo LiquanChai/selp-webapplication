@@ -2,6 +2,9 @@ from django.shortcuts import render, render_to_response,RequestContext,HttpRespo
 from django.contrib import messages
 from .forms import RegistrationForm
 from time import sleep
+from django.core.mail import send_mail
+from django.conf import settings
+
 def home(request):
  template = "home.html"
  context = {}
@@ -20,6 +23,14 @@ def register(request):
  if form.is_valid():
  	save_it = form.save(commit = False)
  	save_it.save()
+
+ 	sbj = 'sign up success at anime quiz!'
+ 	msg = 'Thank you for join us!'
+ 	frm = form.cleaned_data['email']
+ 	to_us = [settings.EMAIL_HOST_USER]
+ 	send_mail(sbj, msg, frm, to_us, fail_silently=True)
+ 	print (sbj,msg,frm,to_us)
+ 	
  	sleep(3)
  	messages.success(request, "Sign up successful!")
  	return HttpResponseRedirect('/signin/')

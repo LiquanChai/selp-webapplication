@@ -12,6 +12,12 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+# auto send email information
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'Animquizwebapp@gmail.com'
+EMAIL_HOST_PASSWORD = '1234567890!!'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
@@ -36,8 +42,12 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'joins',
+    'allauth',
+    'allauth.account',
 )
+SITE_ID = 1
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -83,6 +93,27 @@ USE_TZ = True
 #Specify where the templates are stored
 TEMPLATE_DIRS = (
     os.path.join(os.path.dirname(BASE_DIR), 'static', 'templates'),
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = ( "django.contrib.auth.context_processors.auth",
+                                "django.core.context_processors.debug",
+                                "django.core.context_processors.i18n",
+                                "django.core.context_processors.media",
+                                "django.core.context_processors.static",
+                                "django.core.context_processors.tz",
+                                "django.contrib.messages.context_processors.messages",
+                                "django.core.context_processors.request",
+                                "allauth.account.context_processors.account",
+                                "allauth.socialaccount.context_processors.socialaccount",
+
+)
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    "allauth.account.auth_backends.AuthenticationBackend",
 )
 
 STATIC_URL = '/static/'

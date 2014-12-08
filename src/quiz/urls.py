@@ -11,5 +11,6 @@ urlpatterns = patterns('',
     url(r'^register/', 'joins.views.register', name='register'),
     url(r'^signin/', 'joins.views.signin', name='signin'),
     url(r'^admin/', include(admin.site.urls)),
+    (r'^accounts/', include('allauth.urls')),
 
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
