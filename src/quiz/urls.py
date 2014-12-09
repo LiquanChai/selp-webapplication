@@ -7,10 +7,10 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'quiz.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
+    (r'^accounts/', include('allauth.urls')),
     url(r'^$', 'joins.views.home', name='home'),
     url(r'^register/', 'joins.views.register', name='register'),
     url(r'^signin/', 'joins.views.signin', name='signin'),
     url(r'^admin/', include(admin.site.urls)),
-    (r'^accounts/', include('allauth.urls')),
 
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
