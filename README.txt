@@ -16,3 +16,13 @@ refactoring static files
 
 Note:
 To get into backend admin page using: <localhost>/admin
+
+13/12/2014
+refactoring the user mangement system:
+refacotring user login, logout
+user can change password
+changed front end layout
+the register app now completed
+
+14/12/2014
+add unit testing of the user mangement system
