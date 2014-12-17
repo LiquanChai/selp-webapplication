@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404, render, HttpResponseRedirect,ren
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, TemplateView, FormView
 from django.core.urlresolvers import reverse
-from .forms import QuestionForm
+
 from .models import Quiz, Category, Progress 
 from django.template import RequestContext
  
@@ -54,7 +54,7 @@ def quiz_answer(request,pk):
             if qid == 10 :
                 request.session['qid'] = 0
                 return render_to_response('single_complete.html', RequestContext(request, {'category': c, "status":False}))
-            p, status = Progress.objects.get_or_create(category=c, user=request.user)
+            p, status = Progress.objects.get_or_create(user=request.user)
             p.save()
             nqs = Quiz.objects.filter(category=c).exclude(id__in=p.score.all().values_list('id', flat=True)).order_by('?')
             if len(nqs) == 0:
@@ -82,7 +82,7 @@ def quiz_answer(request,pk):
             status = ((A == nq.A) and (B == nq.B) and (C == nq.C) and (D == nq.D))
             print status 
             if status == True:
-                p, so = Progress.objects.get_or_create(category=c, user=request.user)
+                p, so = Progress.objects.get_or_create(user=request.user)
                 p.save()
                 p.score.add(nq)
                 p.save()
@@ -167,11 +167,6 @@ class ViewQuizListByCategory(ListView):
     def get_queryset(self):
         queryset = super(ViewQuizListByCategory, self).get_queryset()
         return queryset.filter(category=self.category)
-
-
-
-class QuizUserProgressView(ListView):
-    model = Progress
 
 
 
