@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "All Quizzes" %}{% endblock %}
+
+{% block content %}
+<h2>{% trans "Category list" %}</h2>
+{% if user.is_superuser%}
+	<ul class="inline">
+		<li>
+			<form action="/add_category/" method="post" class="form-inline">
+				{% csrf_token %}
+				<div class="input-prepend">
+					<span class="add-on">Category</span>
+					<input type="text" name="category" value="" id="category" required = "required">
+				</div>
+						
+				<input type="submit" value="Add" class="btn"/>
+			</form>
+		</li>
+	</ul>
+{%endif%}
+
+<ul>
+  {% for cat in category_list %}
+  <li>
+	<a href="{% url 'quiz_category_list_matching' category_name=cat.category %}">
+	  {{ cat.category }}
+	</a>
+  </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

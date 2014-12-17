@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+
+{% block title %} Quiz {% endblock title %}
+{% block page_title %} Anwser {% endblock page_title %}
+{% block content %}
+
+<div class= "container">
+
+
+<form class="form-inline" action="{% url "quiz_answer" pk=quiz.category.id %}" method="POST">
+  
+  {% csrf_token %}
+
+<div class="form-group">  
+</div>
+  <p>Quiz: {{quiz.title}}</p>
+  <p>Category: {{quiz.category}}</p>
+  <pre>
+    {{quiz.description}}
+  </pre>
+    <input type="text" style="display:none" name="qid" value={{quiz.id}}></input>
+ 
+    <div class="form-inline">
+        <input type="checkbox" id="A", name="A">A</input>
+    </div>
+ 
+    <div class="form-inline">
+        <input type="checkbox" id="B", name="B">B</input>
+    </div>
+ 
+    <div class="form-inline">
+        <input type="checkbox" id="C", name="C">C</input>
+    </div>
+ 
+    <div class="form-inline">
+        <input type="checkbox" id="D", name="D">D</input>
+    </div>
+ 
+  <button type="submit" class="btn" >confirm</a>
+</form>
+</div>
+{% endblock content %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+
+{% block title %} Quiz {% endblock title %}
+{% block page_title %} update form {% endblock page_title %}
+{% block content %}
+
+<form action="" method="post" class="form-horizontal"> {% csrf_token %}
+            {{ form.as_p}}
+<p class="form-actions">
+                <input type="submit" value="Submit" class="btn btn-primary">
+            </p>
+</form>
+
+{% endblock content %}

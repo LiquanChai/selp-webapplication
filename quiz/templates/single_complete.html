@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% load quiz_tags %}
+
+{% block title %} {{ category.category }} {% endblock %}
+{% block description %} {{ category.category }} {% endblock %}
+
+{% block content %}
+ {% if status %}
+  <p class="lead">{% trans "All quizzes of this Category are Answered correctly by you!" %}.</p>
+ {% else %}
+  <p class="lead">{% trans "You have already finished and you can restart again " %}.</p>
+{% endif %}
+  <a  class = "btn" href={% url "quiz_category_list_all" %}>Restart</a>
+
+{% endblock %}

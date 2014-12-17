@@ -1,0 +1,79 @@
+{% load i18n %}
+{% load bootstrap_toolkit %}
+
+{% load url from future %}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+{% bootstrap_stylesheet_tag %}
+{% bootstrap_stylesheet_tag "responsive" %}
+<title>{% trans "Let's do Anime quiz!" %} | {% block title %}{% endblock %}</title>
+<meta name="description" content="{% block description %}{% endblock %}">
+
+<!-- styles
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+ -->
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script src="http://code.jquery.com/jquery-1.9.0.js"></script>
+    {% bootstrap_javascript_tag %}
+    {% block extra_head %}{% endblock %}
+</head>
+
+<body>
+<div>
+<div class="navbar navbar-inverse"  >
+  <div class="navbar-inner">
+  	<a class="brand" href="{%url "quiz_category_list_all" %}">Anime quiz!</a>
+
+      <ul class="nav navbar-nav">
+
+        <li class="active"><a href="{%url "quiz_category_list_all" %}">Home</a></li>
+ 
+        <li><a href="{%url "quiz_marks" %}">Rankings</a></li>
+      </ul>
+
+	{% if user.is_authenticated %}
+        <ul  class="nav navbar-nav navbar-right" >
+        	<li  >
+        		<a data-toggle="dropdown" class="dropdown-toggle" href="#" >hello {{ user }}
+        			<span class="caret"></span>
+        		</a>
+        	</li>
+            <li>
+            	<a href="/accounts/change_passwd/">change Passwd</a>
+            </li>
+            <li>
+            	<a href='/accounts/logout/'>Logout</a>
+            </li>
+        </ul>
+    {% else %}
+
+ 	<ul class="nav navbar-nav navbar-right" ><li>
+          <a href='/accounts/login/'>Login</a>
+             </li>
+        </ul>
+    {% endif %}
+
+ 
+  </div>
+</div>
+</div>
+<!-- Before the quiz content -->
+
+<div class="container">
+
+{% block content %}
+
+{% endblock %}
+
+</div>
+
+<!-- After the quiz content -->
+
+
+</body>
+</html>

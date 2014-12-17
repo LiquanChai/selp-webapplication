@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "Quizzes related to" %} {{ category.category }}{% endblock %}
+
+{% block content %}
+<h1>{% trans "Quizzes in the" %} <strong>{{ category.category }} </strong>{% trans "category" %}</h1>
+{% if user.is_superuser %}
+    <ul class="inline">
+        <li>
+            <a type="button" class="btn" href={% url "quiz_create" %}>Add Quiz</a>
+        </li>
+    </ul>
+{% else %}
+    <ul class="inline">
+        <li>
+            <a type="button" class="btn" href="{% url "quiz_answer" pk=category.pk %}">Start Answer</a>
+        </li>
+    </ul>
+{% endif%}
+  {% with object_list as quizzes %}
+    {% if quizzes %}
+        <ul>
+        {% for quiz in quizzes %}
+            <li>
+            {% if user.is_superuser %}
+            			  <a href="{% url "quiz_start_page" pk=quiz.id %}">
+            				{{ quiz.title }}
+            			  </a>
+            {% else %}
+                <a>
+            {{ quiz.title }}
+              </a>
+              {% endif %}
+			</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>{% trans "There are no quizzes" %}</p>
+    {% endif %}
+
+  {% endwith %}
+{% endblock %}

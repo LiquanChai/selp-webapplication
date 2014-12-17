@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+
+{% block title %} Quiz {% endblock title %}
+{% block page_title %} Anwser Status {% endblock page_title %}
+{% block content %}
+
+<div class= "container">
+<pre>
+  {% if status %}
+  <p class="lead"> Your Anwser is <strong>correct</strong>! </p>
+  {% else %}
+  <p class="lead"> Your Anwser is <strong>incorrect</strong>! </p>
+  {% endif %}
+  <p class="lead"> Correct Anwser is : {% if quiz.A %}A{% endif %}{% if quiz.B %}B{% endif %}{% if quiz.C %}C{% endif %}{% if quiz.D %}D{% endif %} </p>
+</pre>
+
+<form class="form-inline" action="{% url "quiz_answer" pk=quiz.category.id %}" >
+  
+  {% csrf_token %}
+
+<div class="form-group">  
+</div>
+  <p>Quiz: {{quiz.title}}</p>
+  <p>Category: {{quiz.category}}</p>
+  <pre>
+    {{quiz.description}}
+  </pre>
+    <input type="text" style="display:none" name="qid" value={{quiz.id}}></input>
+    
+    <div class="form-inline">
+        <input type="checkbox" id="A", name="A" {% if quiz.A %} checked="checked" {% endif %}>A</input>
+    </div>
+ 
+    <div class="form-inline">
+        <input type="checkbox" id="B", name="B" {% if quiz.B %} checked="checked" {% endif %}>B</input>
+    </div>
+ 
+    <div class="form-inline">
+        <input type="checkbox" id="C", name="C" {% if quiz.C %} checked="checked" {% endif %} >C</input>
+    </div>
+ 
+    <div class="form-inline">
+        <input type="checkbox" id="D", name="D" {% if quiz.D %} checked="checked" {% endif %} >D</input>
+    </div>
+  <button type="submit" class="btn" >Next</a>
+</form>
+</div>
+
+{% endblock content %}

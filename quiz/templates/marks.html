@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% load quiz_tags %}
+
+{% block title %} {{ category.category }} {% endblock %}
+{% block description %} {{ category.category }} {% endblock %}
+
+{% block content %}
+
+<div class="container">
+<table class="table">
+	<tr>
+	<th>Rank</th>
+	<th>User</th>
+	<th>Score</th>
+	</tr>
+	{% for p in allp %}
+	<tr>
+		<td>{{forloop.counter}}</td>
+		<td>{{p.user}}</td>
+		<td>{{p.total_score}}</td>
+	<tr>
+	{%endfor %}
+
+</div>
+
+{% endblock %}
