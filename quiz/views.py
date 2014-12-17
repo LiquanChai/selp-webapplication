@@ -10,6 +10,15 @@ from .forms import QuestionForm
 from .models import Quiz, Category, Progress 
 from django.template import RequestContext
 
+def quiz_marks(request):
+    # ranking ordered by total marks
+    allp = Progress.objects.all()
+    for p in allp:
+        p.total_score = sum([x.pass_mark for x in p.score.all()])
+        p.save()
+    allp = Progress.objects.all().order_by('total_score')
+    return render_to_response('marks.html', RequestContext(request, {'allp': allp}))
+
 def quiz_answer(request,pk):
 	# decide and show correct answer
     try:

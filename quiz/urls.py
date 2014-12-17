@@ -1,13 +1,16 @@
 from django.conf.urls import patterns, include, url
 import usermgt
-from .views import *
+from .views import QuizListView, CategoriesListView,\
+    ViewQuizListByCategory, QuizUserProgressView,\
+    QuizDetailView, QuizCreateView, QuizUpdateView,\
+    add_category,quiz_answer,quiz_marks
 
 
 urlpatterns = patterns('',
 	url(r'^add_category/$', add_category),
 	url(regex=r'^quiz_create/$', view=QuizCreateView.as_view(), name='quiz_create'),
 	url(r'^quiz_answer/(?P<pk>[\d-]+)/$', quiz_answer, name='quiz_answer'),
-	# url(r'^marks/$', quiz_marks, name='quiz_marks'), to be implementated
+	url(r'^marks/$', quiz_marks, name='quiz_marks'), to be implementated
 	url(regex=r'^quiz_update/(?P<pk>[\d-]+)/$', view=QuizUpdateView.as_view(), name='quiz_update'),
 	url(regex=r'^quiz/$', view=QuizListView.as_view(), name='quiz_index'),
 	url(regex=r'^$', view=CategoriesListView.as_view(), name='quiz_category_list_all'),
