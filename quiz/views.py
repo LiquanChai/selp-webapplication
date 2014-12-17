@@ -1,23 +1,22 @@
-import random # random questions are seelected within one category
-
+import random
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, render, HttpResponseRedirect,render_to_response
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, TemplateView, FormView
 from django.core.urlresolvers import reverse
-
+ 
 from .models import Quiz, Category, Progress 
 from django.template import RequestContext
  
 @login_required
 def quiz_marks(request):
-    # ranking ordered by total marks
+    # ranking ordered by total score/mark
     allp = Progress.objects.all()
     for p in allp:
         p.total_score = sum([x.pass_mark for x in p.score.all()])
         p.save()
-    allp = Progress.objects.all().order_by('-total_score') # max score go first
+    allp = Progress.objects.all().order_by('-total_score')
     return render_to_response('marks.html', RequestContext(request, {'allp': allp}))
 
 
@@ -28,9 +27,7 @@ def add_category(request):
             category = request.POST.get('category', '').strip('"\' ')
         if category is None or category == '':
             raise Exception('Null category is not allowed')
-
         Category.objects.new_category(category)
-
         return HttpResponseRedirect(reverse('quiz_category_list_all'))
 
     except Exception, e:
@@ -40,7 +37,7 @@ def add_category(request):
 
 @login_required
 def quiz_answer(request,pk):
-    # decide and show correct answer
+    # the controller to decide and show the correct answer
     try:
         c = Category.objects.get(id=pk)
         if request.session.get('cid', default=0) != pk:
@@ -76,12 +73,12 @@ def quiz_answer(request,pk):
                 C = False
             if request.POST.get('D', '') == '':
                 D = False
-            print A,B,C,D, nq.A, nq.B, nq.C, nq.D
+            print A,B,C,D, nq.A, nq.B, nq.C, nq.D # show choice again
             print (A == nq.A), (B == nq.B), (C == nq.C) ,  (D == nq.D)
 
             status = ((A == nq.A) and (B == nq.B) and (C == nq.C) and (D == nq.D))
-            print status 
-            if status == True:
+            print status
+            if status == True: # add score
                 p, so = Progress.objects.get_or_create(user=request.user)
                 p.save()
                 p.score.add(nq)
@@ -104,11 +101,11 @@ class SittingFilterTitleMixin(object):
         quiz_filter = self.request.GET.get('quiz_filter')
         if quiz_filter:
             queryset = queryset.filter(quiz__title__icontains=quiz_filter)
-
         return queryset
 
 
 class QuizListView(ListView):
+    # list all quizess before start the category.
     model = Quiz
 
     def get_queryset(self):
@@ -116,13 +113,13 @@ class QuizListView(ListView):
         return queryset.all()
 
 class QuizCreateView(CreateView):
+    # admin can create a new quiz.
     model = Quiz
     success_msg = "Quiz created!"
-    
-
 
 
 class QuizUpdateView(UpdateView):
+    # the view let admin can change the quiz.
     model = Quiz
     def get_success_url(self):
         return reverse("quiz_start_page",
@@ -139,12 +136,12 @@ class QuizDetailView(DetailView):
 
 
 class CategoriesListView(ListView):
-    # inherit from Category model
+    # showing at the main page.
     model = Category
 
 
 class ViewQuizListByCategory(ListView):
-    # inherit from Quiz model
+    #  showing the quizzes contained iin the category.
     model = Quiz
     template_name = 'view_quiz_category.html'
 
@@ -154,12 +151,10 @@ class ViewQuizListByCategory(ListView):
             category=self.kwargs['category_name']
         )
 
-        return super(ViewQuizListByCategory, self).\
-            dispatch(request, *args, **kwargs)
+        return super(ViewQuizListByCategory, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super(ViewQuizListByCategory, self)\
-            .get_context_data(**kwargs)
+        context = super(ViewQuizListByCategory, self).get_context_data(**kwargs)
 
         context['category'] = self.category
         return context
@@ -167,6 +162,5 @@ class ViewQuizListByCategory(ListView):
     def get_queryset(self):
         queryset = super(ViewQuizListByCategory, self).get_queryset()
         return queryset.filter(category=self.category)
-
 
 

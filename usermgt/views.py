@@ -14,14 +14,15 @@ from usermgt.models import *
 # Create your views here.
 from django.shortcuts import redirect
 from django.views.generic.edit import FormView
-
 import signals
 from forms import RegistrationForm
 
 
 class _RequestPassingFormView(FormView):
     """
-    A type of FormView passes (extra) arguments to certain methods, general method
+    a version of FormView which passes extra arguments to certain
+    methods.
+    
     """
     def get(self, request, *args, **kwargs):
         # Pass request to get_form_class and get_form for per-request
@@ -51,7 +52,8 @@ class _RequestPassingFormView(FormView):
         return super(_RequestPassingFormView, self).get_initial()
 
     def get_success_url(self, request=None, user=None):
-        # constructing success_url need the request and the new user
+        # We need to be able to use the request and the new user when
+        # constructing success_url.
         return super(_RequestPassingFormView, self).get_success_url()
 
     def form_valid(self, form, request=None):
@@ -73,7 +75,11 @@ class RegistrationView(_RequestPassingFormView):
     template_name = 'registration_form.html'
 
     def dispatch(self, request, *args, **kwargs):
-        # check user sign up is allowed
+        """
+        check that user signup is allowed before even bothering to
+        dispatch or do other processing.
+        
+        """
         if not self.registration_allowed(request):
             return redirect(self.disallowed_url)
         return super(RegistrationView, self).dispatch(request, *args, **kwargs)
@@ -81,7 +87,8 @@ class RegistrationView(_RequestPassingFormView):
     def form_valid(self, request, form):
         new_user = self.register(request, **form.cleaned_data)
         success_url = self.get_success_url(request, new_user)
-         # since success url could be a string or a tuple of arguments
+        # since success url could be a string or a tuple of arguments.
+
         try:
             to, args, kwargs = success_url
             return redirect(to, *args, **kwargs)
@@ -112,5 +119,5 @@ class RegistrationView(_RequestPassingFormView):
 
 @login_required
 def usermgt_profile(request):
-    # redirect to userpage
+    # redirect to userpage.
     return HttpResponseRedirect(reverse('quiz_category_list_all'))

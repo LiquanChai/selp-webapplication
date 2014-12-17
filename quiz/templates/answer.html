@@ -3,6 +3,11 @@
 
 {% block title %} Quiz {% endblock title %}
 {% block page_title %} Anwser {% endblock page_title %}
+
+{% block extra_head %}
+<meta http-equiv="refresh" content="20;url={% url "quiz_answer" pk=quiz.category.id %}" />
+{% endblock %}
+
 {% block content %}
 
 <div class= "container">
@@ -14,6 +19,7 @@
 
 <div class="form-group">  
 </div>
+  <h3>You Have 20 seconds to Anwser </h3>
   <p>Quiz: {{quiz.title}}</p>
   <p>Category: {{quiz.category}}</p>
   <pre>

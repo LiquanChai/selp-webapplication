@@ -38,13 +38,11 @@
 
 	{% if user.is_authenticated %}
         <ul  class="nav navbar-nav navbar-right" >
-        	<li  >
-        		<a data-toggle="dropdown" class="dropdown-toggle" href="#" >hello {{ user }}
-        			<span class="caret"></span>
-        		</a>
+        	<li>
+        		<a>hello {{ user }}</a>
         	</li>
             <li>
-            	<a href="/accounts/change_passwd/">change Passwd</a>
+            	<a href="/accounts/change_passwd/">Change Passwd</a>
             </li>
             <li>
             	<a href='/accounts/logout/'>Logout</a>

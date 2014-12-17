@@ -8,10 +8,8 @@ from django.template import Template, Context
 from django.test import TestCase
 from django.utils.importlib import import_module
 from django.utils.six import StringIO
-
 from .models import Category, Quiz, Progress 
-from .views import (QuizListView, CategoriesListView,
-                    QuizDetailView)
+from .views import (QuizListView, CategoriesListView, QuizDetailView)
 
  
 
@@ -43,7 +41,6 @@ class TestQuiz(TestCase):
                                          title='test quiz 3',
                                          description='d3',
                                          category=self.c1)
- 
         self.quiz4 = Quiz.objects.create(id=4,
                                          title='test quiz 4',
                                          description='d4',

@@ -19,12 +19,14 @@ SECRET_KEY = '868g+*73=-4=0nwh$!3(43q)4m%#%hy3gxw=m%s=%+$#(_eq4i'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 USERMGT_TEMPLATE_DIR = os.path.join(BASE_DIR, 'usermgt/templates')
-TEMPLATE_DEBUG = True
+
+# Template settings
+TEMPLATE_DEBUG = DEBUG
 TEMPLATE_PATH = os.path.join(BASE_DIR, 'template')
 TEMPLATE_DIRS = (
         USERMGT_TEMPLATE_DIR,
         TEMPLATE_PATH,
-    )
+)
 
 ALLOWED_HOSTS = []
 
@@ -85,5 +87,5 @@ STATIC_URL = '/static/'
 
 
 
-MEDIA_ROOT = BASE_DIR + '/media/'
-MEDIA_URL = '/media/'
+#MEDIA_ROOT = BASE_DIR + '/media/'
+#MEDIA_URL = '/media/'

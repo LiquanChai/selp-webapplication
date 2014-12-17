@@ -1,7 +1,3 @@
-# coding:utf-8
-'''
-
-'''
 from django.conf.urls import patterns, include, url
 from usermgt.views import *
 from django.contrib.auth import views as auth_views

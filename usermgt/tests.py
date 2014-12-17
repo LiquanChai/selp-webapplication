@@ -9,9 +9,9 @@ class UsermgtTests(TestCase):
     Test the model and manager used in the default backend.
     
     """
-    user_info = {'username': 'liquan',
-                 'password': 'password123',
-                 'email': 'liquan@example.com'}
+    user_info = {'username': 'liquanchai',
+                 'password': '1234567890',
+                 'email': 'liquanchai@example.com'}
     
     def setUp(self):
     	pass
@@ -26,20 +26,20 @@ class UsermgtTests(TestCase):
         """
         # Create a user so we can verify that duplicate usernames aren't
         # permitted.
-        User.objects.create_user('liquan', 'liquan@example.com', 'secret')
+        User.objects.create_user('liquanchai', 'liquanchai@example.com', 'secret')
 
         invalid_data_dicts = [
             # Non-alphanumeric username.
             {'data': {'username': 'foo/bar',
-                      'email': 'foo@qq.com',
+                      'email': 'foo@haha.com',
                       'password1': 'foo',
                       'password2': 'foo'},
             'error': ('username', [u"This value may contain only letters, numbers and @/./+/-/_ characters."])},
             # Already-existing username.
-            {'data': {'username': 'liquan',
-                      'email': 'liquan@qq.com',
+            {'data': {'username': 'liquanchai',
+                      'email': 'liquanchai@haha.com',
                       'password1': 'secret',
-                      'password2': 'secret'}
+                      'password2': 'secret'},
             'error': ('username', [u"A user with that username already exists."])},
             # Mismatched passwords.
             {'data': {'username': 'foo',
@@ -56,7 +56,7 @@ class UsermgtTests(TestCase):
                              invalid_dict['error'][1])
 
         form = forms.RegistrationForm(data={'username': 'foo',
-                                            'email': 'foo@qq.com',
+                                            'email': 'foo@haha.com',
                                             'password1': 'foo',
                                             'password2': 'foo'})
         self.failUnless(form.is_valid())

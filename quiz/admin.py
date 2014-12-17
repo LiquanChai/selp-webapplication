@@ -16,7 +16,6 @@ class QuizAdminForm(forms.ModelForm):
     """
     upload form to admin
     """
-
     class Meta:
         model = Quiz
         exclude = []

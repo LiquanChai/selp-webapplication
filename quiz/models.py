@@ -7,8 +7,6 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator
 from django.utils.translation import ugettext as _
 from django.utils.timezone import now
- 
-
 from model_utils.managers import InheritanceManager
 
 
@@ -24,9 +22,10 @@ class CategoryManager(models.Manager):
         return new_category
 
  
+
 class Category(models.Model):
     """
-    category is a set of quizess, identified by verbose_name
+    category is a set of quizess which identified by verbose_name
     """
     category = models.CharField(
         verbose_name=_("Category"),
@@ -46,11 +45,10 @@ class Category(models.Model):
 
 class Quiz(models.Model):
     """
-    one quiz is one question, it is a multiple choice question with option A B C D.
+    one quiz is one question, and it is a multiple choice question with option A B C D.
     It can be repeated in different categories.
-    arrtibute: title, description, score(passmark) reference to category
+    arrtibute: title, description, score(passmark) reference to category.
     """
-
     title = models.CharField(
         verbose_name=_("Title"),
         max_length=60, blank=False,null=False)
@@ -75,15 +73,11 @@ class Quiz(models.Model):
         return reverse('quiz_category_list_matching', kwargs={'category_name': self.category.category})
 
 
-
-
-
 class Progress(models.Model):
     """
-    the process of a user answering question in a category.
+    the process of a user answering question. It link user and ranking.
     """
     user = models.ForeignKey("auth.User", verbose_name=_("User"))
-    category = models.ForeignKey(Category)
     score = models.ManyToManyField('Quiz')
     total_score = models.IntegerField(default=0)
                                             
