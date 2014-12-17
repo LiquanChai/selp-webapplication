@@ -10,6 +10,7 @@ from .forms import QuestionForm
 from .models import Quiz, Category, Progress 
 from django.template import RequestContext
 
+@login_required 
 def quiz_marks(request):
     # ranking ordered by total marks
     allp = Progress.objects.all()
@@ -19,6 +20,23 @@ def quiz_marks(request):
     allp = Progress.objects.all().order_by('total_score')
     return render_to_response('marks.html', RequestContext(request, {'allp': allp}))
 
+@login_required
+def add_category(request):
+    try:
+        if request.method == 'POST':
+            category = request.POST.get('category', '').strip('"\' ')
+        if category is None or category == '':
+            raise Exception('Null category is not allowed')
+
+        Category.objects.new_category(category)
+
+        return HttpResponseRedirect('/category/')
+
+    except Exception, e:
+        print e 
+        return HttpResponseRedirect('/category/')
+
+@login_required 
 def quiz_answer(request,pk):
 	# decide and show correct answer
     try:
