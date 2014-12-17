@@ -1,5 +1,5 @@
 import random
-# random qustion apprar
+# random qustion appear
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, render, HttpResponseRedirect,render_to_response
