@@ -3,18 +3,10 @@
 
 {% block title %} Quiz {% endblock title %}
 {% block page_title %} Anwser Status {% endblock page_title %}
-
-
-{% block extra_head %}
-<meta http-equiv="refresh" content="20;url={% url "quiz_answer" pk=quiz.category.id %}" />
-{% endblock %}
-
-
 {% block content %}
 
 <div class= "container">
 <pre>
-  <p>Will turn to next quiz within 20 seconds ... </p>
   {% if status %}
   <p class="lead"> Your Anwser is <strong>correct</strong>! </p>
   {% else %}
@@ -34,6 +26,7 @@
   <pre>
     {{quiz.description}}
   </pre>
+    <input type="text" style="display:none" name="qid" value={{quiz.id}}></input>
     
     <div class="form-inline">
         <input type="checkbox" id="A", name="A" {% if quiz.A %} checked="checked" {% endif %}>A</input>

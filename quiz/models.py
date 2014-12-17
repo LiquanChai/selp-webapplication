@@ -1,4 +1,4 @@
-from __future__ import unicode_literals # other language
+from __future__ import unicode_literals
 import re
 import json
 from django.core.urlresolvers import reverse
@@ -7,6 +7,8 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator
 from django.utils.translation import ugettext as _
 from django.utils.timezone import now
+ 
+
 from model_utils.managers import InheritanceManager
 
 
@@ -26,7 +28,6 @@ class Category(models.Model):
     """
     category is a set of quizess, identified by verbose_name
     """
-
     category = models.CharField(
         verbose_name=_("Category"),
         max_length=250, blank=True,
@@ -52,14 +53,14 @@ class Quiz(models.Model):
 
     title = models.CharField(
         verbose_name=_("Title"),
-        max_length=60, blank=False)
+        max_length=60, blank=False,null=False)
 
     description = models.TextField(
         verbose_name=_("Description"),
-        blank=True, help_text=_("a description of the quiz"))
+        blank=False, null=False, help_text=_("a description of the quiz"))
 
     category = models.ForeignKey(
-        Category, null=True, blank=True,
+        Category,blank=False,null=False,
         verbose_name=_("Category"))
     A = models.BooleanField(default=False,help_text=_("Answer A is Correct"))
     B = models.BooleanField(default=False,help_text=_("Answer B is Correct"))
@@ -82,10 +83,12 @@ class Progress(models.Model):
     the process of a user answering question in a category.
     """
     user = models.OneToOneField("auth.User", verbose_name=_("User"))
-    category = models.OneToOneField(Category)
+    category = models.ForeignKey(Category)
     score = models.ManyToManyField('Quiz')
     total_score = models.IntegerField(default=0)
                                             
     class Meta:
         verbose_name = _("User Progress")
         verbose_name_plural = _("User progress records")
+
+  

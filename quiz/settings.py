@@ -2,33 +2,29 @@
 Django settings for quiz project.
 
 For more information on this file, see
-https://docs.djangoproject.com/en/1.6/topics/settings/
 
 For the full list of settings and their values, see
-https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-# auto send email information unworke feature
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_HOST_USER = 'Animquizwebapp@gmail.com'
-# EMAIL_HOST_PASSWORD = '1234567890!!'
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
 
 # Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '868g+*73=-4=0nwh$!3(43q)4m%#%hy3gxw=m%s=%+$#(_eq4i'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-TEMPLATE_DEBUG = DEBUG
+USERMGT_TEMPLATE_DIR = os.path.join(BASE_DIR, 'usermgt/templates')
+TEMPLATE_DEBUG = True
+TEMPLATE_PATH = os.path.join(BASE_DIR, 'template')
+TEMPLATE_DIRS = (
+        USERMGT_TEMPLATE_DIR,
+        TEMPLATE_PATH,
+    )
 
 ALLOWED_HOSTS = []
 
@@ -87,14 +83,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 
-USERMGT_TEMPLATE_DIR = os.path.join(BASE_DIR, 'usermgt/templates')
 
-TEMPLATE_PATH = os.path.join(BASE_DIR, 'template')
-
-TEMPLATE_DIRS = (
-        USERMGT_TEMPLATE_DIR,
-        TEMPLATE_PATH,
-    )
 
 MEDIA_ROOT = BASE_DIR + '/media/'
 MEDIA_URL = '/media/'

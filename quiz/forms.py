@@ -3,9 +3,7 @@ from django.forms.widgets import RadioSelect, Textarea
 
 
 class QuestionForm(forms.Form):
-	"""
-	the form used to upload quiz
-	"""
+# the form used to upload quiz
     def __init__(self, question, *args, **kwargs):
         super(QuestionForm, self).__init__(*args, **kwargs)
         choice_list = [x for x in question.get_answers_list()]

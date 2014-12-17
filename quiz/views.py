@@ -1,5 +1,5 @@
-import random
-# random qustion appear
+import random # random questions are seelected within one category
+
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, render, HttpResponseRedirect,render_to_response
@@ -9,16 +9,17 @@ from django.core.urlresolvers import reverse
 from .forms import QuestionForm
 from .models import Quiz, Category, Progress 
 from django.template import RequestContext
-
-@login_required 
+ 
+@login_required
 def quiz_marks(request):
     # ranking ordered by total marks
     allp = Progress.objects.all()
     for p in allp:
         p.total_score = sum([x.pass_mark for x in p.score.all()])
         p.save()
-    allp = Progress.objects.all().order_by('total_score')
+    allp = Progress.objects.all().order_by('-total_score') # max score go first
     return render_to_response('marks.html', RequestContext(request, {'allp': allp}))
+
 
 @login_required
 def add_category(request):
@@ -30,15 +31,16 @@ def add_category(request):
 
         Category.objects.new_category(category)
 
-        return HttpResponseRedirect('/category/')
+        return HttpResponseRedirect(reverse('quiz_category_list_all'))
 
     except Exception, e:
         print e 
-        return HttpResponseRedirect('/category/')
+        return HttpResponseRedirect(reverse('quiz_category_list_all'))
 
-@login_required 
+
+@login_required
 def quiz_answer(request,pk):
-	# decide and show correct answer
+    # decide and show correct answer
     try:
         c = Category.objects.get(id=pk)
         if request.session.get('cid', default=0) != pk:
@@ -59,7 +61,7 @@ def quiz_answer(request,pk):
                 return render_to_response('single_complete.html', RequestContext(request, {'category': c, "status":True}))
             else:
                 nq = nqs[0]
-            request.session['qid'] += 1 # time +1
+            request.session['qid'] += 1
             return render_to_response('answer.html', RequestContext(request, {'quiz': nq}))
         else :
             # answer 
@@ -75,18 +77,19 @@ def quiz_answer(request,pk):
             if request.POST.get('D', '') == '':
                 D = False
             print A,B,C,D, nq.A, nq.B, nq.C, nq.D
+            print (A == nq.A), (B == nq.B), (C == nq.C) ,  (D == nq.D)
+
             status = ((A == nq.A) and (B == nq.B) and (C == nq.C) and (D == nq.D))
+            print status 
             if status == True:
-                # correct answer chosen
-                p, status = Progress.objects.get_or_create(category=c, user=request.user)
+                p, so = Progress.objects.get_or_create(category=c, user=request.user)
                 p.save()
                 p.score.add(nq)
                 p.save()
-            # show answer
             return render_to_response('answer_status.html', RequestContext(request, {'quiz': nq, 'status': status}))
     except Exception, e:
         print e 
-        return HttpResponseRedirect('/category/')
+        return HttpResponseRedirect(reverse('quiz_category_list_all'))
 
 class QuizMarkerMixin(object):
     @method_decorator(login_required)
@@ -94,13 +97,16 @@ class QuizMarkerMixin(object):
     def dispatch(self, *args, **kwargs):
         return super(QuizMarkerMixin, self).dispatch(*args, **kwargs)
 
+
 class SittingFilterTitleMixin(object):
     def get_queryset(self):
         queryset = super(SittingFilterTitleMixin, self).get_queryset()
         quiz_filter = self.request.GET.get('quiz_filter')
         if quiz_filter:
             queryset = queryset.filter(quiz__title__icontains=quiz_filter)
+
         return queryset
+
 
 class QuizListView(ListView):
     model = Quiz
@@ -110,14 +116,17 @@ class QuizListView(ListView):
         return queryset.all()
 
 class QuizCreateView(CreateView):
-	# inherit from Quiz model
     model = Quiz
     success_msg = "Quiz created!"
+    
+
+
 
 class QuizUpdateView(UpdateView):
     model = Quiz
     def get_success_url(self):
-        return reverse("quiz_start_page", kwargs={"pk": self.object.pk})
+        return reverse("quiz_start_page",
+            kwargs={"pk": self.object.pk})
 
 class QuizDetailView(DetailView):
     model = Quiz
@@ -128,11 +137,14 @@ class QuizDetailView(DetailView):
         context = self.get_context_data(object=self.object)
         return self.render_to_response(context)
 
+
 class CategoriesListView(ListView):
-	# inherit from Category model
-	model = Category
+    # inherit from Category model
+    model = Category
+
 
 class ViewQuizListByCategory(ListView):
+    # inherit from Quiz model
     model = Quiz
     template_name = 'view_quiz_category.html'
 
@@ -142,10 +154,12 @@ class ViewQuizListByCategory(ListView):
             category=self.kwargs['category_name']
         )
 
-        return super(ViewQuizListByCategory, self).dispatch(request, *args, **kwargs)
+        return super(ViewQuizListByCategory, self).\
+            dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super(ViewQuizListByCategory, self).get_context_data(**kwargs)
+        context = super(ViewQuizListByCategory, self)\
+            .get_context_data(**kwargs)
 
         context['category'] = self.category
         return context
@@ -154,5 +168,10 @@ class ViewQuizListByCategory(ListView):
         queryset = super(ViewQuizListByCategory, self).get_queryset()
         return queryset.filter(category=self.category)
 
+
+
 class QuizUserProgressView(ListView):
     model = Progress
+
+
+
