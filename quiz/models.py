@@ -82,7 +82,7 @@ class Progress(models.Model):
     """
     the process of a user answering question in a category.
     """
-    user = models.OneToOneField("auth.User", verbose_name=_("User"))
+    user = models.ForeignKey("auth.User", verbose_name=_("User"))
     category = models.ForeignKey(Category)
     score = models.ManyToManyField('Quiz')
     total_score = models.IntegerField(default=0)
